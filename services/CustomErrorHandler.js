@@ -2,7 +2,7 @@
 
 class CustomErrorHandler extends Error {
     constructor(status, msg) {
-        super(); 
+        super();
         this.status = status;
         this.message = msg;
     }
@@ -13,6 +13,14 @@ class CustomErrorHandler extends Error {
 
     static wrongCredentials(message = "Username or password is wrong!") {
         return new CustomErrorHandler(401, message);
+    }
+
+    static unAuthorized(message = "unAuthorized!") {
+        return new CustomErrorHandler(401, message);
+    }
+
+    static notFound(message = "4o4 Not Found") {
+        return new CustomErrorHandler(404, message);
     }
 }
 
