@@ -3,6 +3,8 @@ import CustomErrorHandler from "../../services/CustomErrorHandler.js";
 import User from "../../models/user.js";
 import JwtService from "../../services/JWTSevice.js";
 import bcrypt from "bcrypt";
+import "dotenv/config";
+import RefreshToken from "../../models/refreshToken.js";
 
 
 const registerController = async (req, res, next) => {
@@ -49,6 +51,7 @@ const registerController = async (req, res, next) => {
     });
 
     let access_token;
+    let refresh_token;
 
     try {
         const result = await user.save();
@@ -56,7 +59,10 @@ const registerController = async (req, res, next) => {
         // console.log(result);
 
         // Token
-         access_token = JwtService.sign({ _id: result._id, role: result.role });
+        access_token = JwtService.sign({ _id: result._id, role: result.role });
+        refresh_token = JwtService.sign({ _id: result._id, role: result.role }, "1y", process.env.REFRESH_SECRET);
+        // Database whitelist
+        await RefreshToken.create({ token: refresh_token });
 
 
     } catch (error) {
@@ -66,7 +72,8 @@ const registerController = async (req, res, next) => {
 
 
     res.json({
-       access_token:access_token
+        access_token: access_token,
+        refresh_token: refresh_token
     });
 };
 

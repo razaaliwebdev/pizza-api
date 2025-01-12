@@ -3,6 +3,7 @@ import registerController from "../controllers/auth/registerController.js"
 import loginController from '../controllers/auth/loginController.js';
 import userController from '../controllers/auth/userController.js';
 import auth from '../middlewares/auth.js';
+import refreshController from '../controllers/auth/refreshController.js';
 
 
 const router = express.Router();
@@ -17,6 +18,8 @@ router.post("/login",loginController);
 // Me route
 router.get("/me",auth,userController);
 
+// Refresh token
+router.post("/refresh",refreshController);
 
 
 

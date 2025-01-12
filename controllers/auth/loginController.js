@@ -1,5 +1,7 @@
 import Joi from 'joi';
+import "dotenv/config";
 import User from '../../models/user.js';
+import RefreshToken from '../../models/refreshToken.js';
 import CustomErrorHandler from '../../services/CustomErrorHandler.js';
 import bcrypt from 'bcrypt';
 import JwtService from '../../services/JWTSevice.js';
@@ -38,8 +40,12 @@ const loginController = async (req, res, next) => {
 
         // Token
         const access_token = JwtService.sign({ _id: user._id, role: user.role });
+        const refresh_token = JwtService.sign({ _id: user._id, role: user.role }, "1y", process.env.REFRESH_SECRET);
+        // Database whitelist
+        await RefreshToken.create({ token: refresh_token });
 
-        res.json({ access_token });
+
+        res.json({ access_token,refresh_token });
 
     } catch (error) {
         return next(error);
