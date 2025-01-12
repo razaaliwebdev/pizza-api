@@ -4,6 +4,7 @@ import loginController from '../controllers/auth/loginController.js';
 import userController from '../controllers/auth/userController.js';
 import auth from '../middlewares/auth.js';
 import refreshController from '../controllers/auth/refreshController.js';
+import logoutController from '../controllers/auth/logoutController.js';
 
 
 const router = express.Router();
@@ -20,6 +21,9 @@ router.get("/me",auth,userController);
 
 // Refresh token
 router.post("/refresh",refreshController);
+
+// Logout 
+router.post("/logout",auth,logoutController)
 
 
 
