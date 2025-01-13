@@ -6,28 +6,34 @@ import auth from '../middlewares/auth.js';
 import refreshController from '../controllers/auth/refreshController.js';
 import logoutController from '../controllers/auth/logoutController.js';
 import productController from '../controllers/productController.js';
+import admin from '../middlewares/admin.js';
+import updateProductController from '../controllers/updateProductController.js';
 
 
 const router = express.Router();
 
 
 // Register route
-router.post("/register",registerController);
+router.post("/register", registerController);
 
 // Login route
-router.post("/login",loginController);
+router.post("/login", loginController);
 
 // Me route
-router.get("/me",auth,userController);
+router.get("/me", auth, userController);
 
 // Refresh token
-router.post("/refresh",refreshController);
+router.post("/refresh", refreshController);
 
 // Logout 
-router.post("/logout",auth,logoutController)
+router.post("/logout", auth, logoutController)
 
 // All products
-router.post("/products",productController);
+router.post("/products", [auth, admin], productController);
+
+// Update the products
+router.put("/products", [auth, admin], updateProductController);
+
 
 
 

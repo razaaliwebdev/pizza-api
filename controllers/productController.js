@@ -1,10 +1,11 @@
 
+import CustomErrorHandler from "../services/CustomErrorHandler.js";
+import productSchema from "../validators/productValidators.js";
 import Product from "../models/product.js";
 import multer from 'multer';
 import path from "path";
 import Joi from 'joi';
 import fs from 'fs';
-import CustomErrorHandler from "../services/CustomErrorHandler.js";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -39,11 +40,11 @@ const productController = async (req, res, next) => {
       const filePath = req.file.path;
 
       // Validation schema for the product
-      const productSchema = Joi.object({
-        name: Joi.string().required(),
-        price: Joi.number().required(),
-        size: Joi.string().required(),
-      });
+      // const productSchema = Joi.object({
+      //   name: Joi.string().required(),
+      //   price: Joi.number().required(),
+      //   size: Joi.string().required(),
+      // });
 
       const { error } = productSchema.validate(req.body); // Validate the product data
 
