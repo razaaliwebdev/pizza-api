@@ -12,15 +12,17 @@ const app = express();
 
 // Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // Database connection
 connectDB();
 
 // Routes
-app.use("/api",routes);
+app.use("/api", routes);
 
 
 // Serve uploaded files (if needed)
+global.appRoot = path.resolve(__dirname);
 app.use('/uploads', express.static(join(__dirname, 'uploads')));
 
 
